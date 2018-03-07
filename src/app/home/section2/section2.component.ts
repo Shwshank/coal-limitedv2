@@ -13,6 +13,7 @@ export class Section2Component implements OnInit {
   option3: any;
   option4: any;
 
+  color: any;
   color1: any;
 
   option1_legends: any;
@@ -31,7 +32,27 @@ export class Section2Component implements OnInit {
   option4_data1: any;
   option4_data2: any;
 
+  tableHeading: any= [];
+  tableArray : any = [];
+  tableTotal : any = [];
+
  constructor() {
+
+   this.tableHeading = ['Subsidiary','Special Forwad E-auction','Linkage Auction','Spot Auction','Exclusive Auction','Road Proportion','Total Volume','Number of Contracts'];
+
+   this.tableArray = [
+     { d1:'SECL', d2: '2.72', d3: '11.55', d4: '1.44', d5: '0.28', d6: '39%', d7: '15.99', d8: '259'},
+     { d1:'SECL', d2: '2.72', d3: '11.55', d4: '1.44', d5: '0.28', d6: '39%', d7: '15.99', d8: '259'},
+     { d1:'SECL', d2: '2.72', d3: '11.55', d4: '1.44', d5: '0.28', d6: '39%', d7: '15.99', d8: '259'},
+     { d1:'SECL', d2: '2.72', d3: '11.55', d4: '1.44', d5: '0.28', d6: '39%', d7: '15.99', d8: '259'},
+     { d1:'SECL', d2: '2.72', d3: '11.55', d4: '1.44', d5: '0.28', d6: '39%', d7: '15.99', d8: '259'},
+     { d1:'SECL', d2: '2.72', d3: '11.55', d4: '1.44', d5: '0.28', d6: '39%', d7: '15.99', d8: '259'},
+     { d1:'SECL', d2: '2.72', d3: '11.55', d4: '1.44', d5: '0.28', d6: '39%', d7: '15.99', d8: '259'},
+     { d1:'SECL', d2: '2.72', d3: '11.55', d4: '1.44', d5: '0.28', d6: '39%', d7: '15.99', d8: '259'},
+   ]
+
+   this.tableTotal = ['Total','5.16','31.48','2.11','0.28','','39.03','432'];
+
    this.option2_legends = ["Samples Collected - Road","Samples Collected - Rail","Results Declared - Road","Results Declared - Rail"];
    this.option2_data1 = ["CCL","MCL","NCL","SECL","WCL"];
    this.option2_data2 = [{name: "Samples Collected - Road", data: [12,32,33,45,21], type: "bar"},
@@ -53,6 +74,7 @@ export class Section2Component implements OnInit {
                          {name: "Results Declared - Road", data: [10,42,66,12,56], type: "bar"},
                          {name: "Results Declared - Rail", data: [23,34,11,66,22], type: "bar"}];
 
+    this.color = ['#9474D8','#fb8eca','#99b4f3','#118ebd']
  }
 
  ngOnInit() {
@@ -145,7 +167,7 @@ export class Section2Component implements OnInit {
 
   getOption2(){
     this.option2 = {
-        // color: this.color,
+        color: this.color,
         itemStyle: {
           // borderWidth: 10,
           borderColor: '#FFF'
@@ -187,7 +209,7 @@ export class Section2Component implements OnInit {
 
   getOption3(){
     this.option3 = {
-        // color: this.color,
+        color: this.color,
         itemStyle: {
           // borderWidth: 10,
           borderColor: '#FFF'
@@ -229,7 +251,7 @@ export class Section2Component implements OnInit {
 
   getOption4(){
     this.option4 = {
-        // color: this.color,
+        color: this.color,
         itemStyle: {
           // borderWidth: 10,
           borderColor: '#FFF'

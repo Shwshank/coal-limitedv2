@@ -1,1 +1,63 @@
 /* You can add global styles to this file, and also import other style files */
+
+$opacity: .6;
+$navbutton: darkslategray;
+
+.navbutton{
+  color: $navbutton;
+}
+
+.nav-link{
+  font-weight: 400;
+}
+
+.bg-light {
+  opacity: $opacity;
+}
+
+.section{
+  min-height: 65vh;
+  // padding-top: 5vh;
+  padding-bottom: 5vh;
+}
+.logo{
+  height:12vh;
+  margin:0 auto;
+  margin-top: 1vh;
+}
+.logoFooter{
+  height:8vh;
+  margin:0 auto;
+  margin-top: 0vh;
+}
+.whiteBlock{
+  margin-top: 5vh;
+  background-color: #ffffff8c;
+  box-shadow: 6px 5px 14px 0px #888888;
+}
+.frontText{
+  padding: 1.5vh;
+  font-size: 2rem;
+  width: 100vw;
+  background: linear-gradient(to bottom right, #dcdcdc73, #fb8eca94);
+  margin-bottom: 2vh;
+}
+.frontTextContent{
+  width: 100%;
+}
+.divHeight{
+  min-height: 30vh;
+  margin-bottom: 5vh;
+}
+footer{
+  height:10vh;
+  margin-top: 10vh;
+  // width: 98vw;
+  // border-top: 1px solid #fff;
+  padding-top: 5vh;
+  // background: linear-gradient(to bottom right, #a7a0e09e, #cba0e09e); /* Standard syntax (must be last) */
+}
+.dropdown-toggle{
+  background-color: transparent;
+  border: 2px solid black;
+}

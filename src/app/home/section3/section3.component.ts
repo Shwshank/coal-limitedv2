@@ -14,10 +14,21 @@ export class Section3Component implements OnInit {
   option6_legends: any;
   option6_data: any;
 
+  color: any;
+
   option7_legends: any;
   option7_data: any;
 
-  constructor() { }
+  constructor() {
+
+    this.option6_data = [{name: "Within 10 days", value: 2913},{name: "Between 11 to 14 days", value: 246},{name: "Between 14 to 18 days", value: 0},{name: "More than 18 days", value: 164}];
+    this.option6_legends = ["Within 10 days","Between 11 to 14 days","Between 14 to 18 days","More than 18 days"];
+
+    this.option7_data = [{name: "Within 10 days", value: 2913},{name: "Between 11 to 14 days", value: 246},{name: "Between 14 to 18 days", value: 0},{name: "More than 18 days", value: 164}];
+    this.option7_legends = ["Within 10 days","Between 11 to 14 days","Between 14 to 18 days","More than 18 days"];
+
+    this.color = ['#9474D8','#fb8eca','#99b4f3','#118ebd'];
+  }
 
   ngOnInit() {
     this.getOption5();
@@ -26,58 +37,80 @@ export class Section3Component implements OnInit {
   }
 
   getOption5(){
-    var data = [{
-        name: 'Grandpa',
-        children: [{
-            name: 'Uncle Leo',
-            value: 15,
-            children: [{
-                name: 'Cousin Jack',
-                value: 2
-            }, {
-                name: 'Cousin Mary',
-                value: 5,
-                children: [{
-                    name: 'Jackson',
-                    value: 2
-                }]
-            }, {
-                name: 'Cousin Ben',
-                value: 4
-            }]
-        }, {
-                name: 'Father',
-                value: 10,
-                children: [{
-                    name: 'Me',
-                    value: 5
-                }, {
-                    name: 'Brother Peter',
-                    value: 1
-                }]
-            }]
-        }, {
-            name: 'Nancy',
-            children: [{
-                name: 'Uncle Nike',
-                children: [{
-                    name: 'Cousin Betty',
-                    value: 1
-                }, {
-                    name: 'Cousin Jenny',
-                    value: 2
-                }]
-            }]
-        }];
+    var colors = ['#9474D8','#fb8eca','#99b4f3','#EAE8F2','#EAE8F2'];
+      var item1 = {
+          color: colors[0]
+      };
+      var item2 = {
+          color: colors[1]
+      };
+      var item3 = {
+          color: colors[2]
+      };
+      var item4 = {
+          color: colors[3]
+      };
+          var data = [     {
+              children: [
+                  {
+                      children: [
+                          {
+                              name: 'Grade Variation: -3 & above',
+                              value: 142,
+                              itemStyle: item1
+                              },
+          {
+              name: 'Grade Variation: -2',
+              value: 221,
+              itemStyle: item1
+              },
+          {
+              name: 'Grade Variation: -1',
+              value: 343,
+              itemStyle: item1
+              }
+          ],
+          name: 'Above Grade',
+          itemStyle: item1
+          },
+        {children: [{name: 'Grade Variation: 0', value: 456,
+          itemStyle: item2}],
+         name: 'Same Grade',
+          itemStyle: item2},
+        {children: [{name: 'Grade Variation: 1', value: 442,
+          itemStyle: item3},
+          {name: 'Grade Variation: 2', value: 405,
+          itemStyle: item3},
+          {name: 'Grade Variation: 3 & above', value: 672,
+          itemStyle: item3}],
+         name: 'Below Grade',
+          itemStyle: item3}],
+       name: 'Grade Variance',
+          itemStyle: item4}];
 
     this.option5 = {
-        series: {
+      series: {
               type: 'sunburst',
-              // highlightPolicy: 'ancestor',
               data: data,
-              radius: [0, '90%'],
-              label: {
-                  rotate: 'radial'
+              radius: [0, '80%'],
+              label : {
+                  rotate: 'vertical',
+                  color: 'darkslategray'
+              },
+
+              selectedMode: 'single',
+              selectedOffset: 30,
+              tooltip: {
+                  show : true,
+                  formatter: function (obj) {
+                      console.log(obj);
+                      var value = obj.name;
+                      return value;
+                      // return  "Subsidiary" + '：' + value[3] + '<br>'
+                      //         +"Volume Signed" + '：' + value[1]+ " mmt"  + '<br>'
+                      //         +"Road Proportion"+ '：' + value[0]+"%"  + '<br>'
+                      //         +"Contracts" + '：' + value[2] + '<br>';
+                  }
               }
           }
     };
@@ -96,7 +129,7 @@ export class Section3Component implements OnInit {
         }
       };
       this.option6 = {
-
+        color: this.color,
         itemStyle: {
           borderWidth: 10,
           borderColor: '#FFF'
@@ -133,7 +166,7 @@ export class Section3Component implements OnInit {
                   },
                     name:'Delay',
                     type:'pie',
-                    radius : ['50%','80%'],
+                    radius : ['50%','75%'],
                     center: ['50%', '50%'],
                     data:this.option6_data,
                     // roseType: 'radius',
@@ -184,6 +217,7 @@ export class Section3Component implements OnInit {
           }
       };
       this.option7 = {
+        color: this.color,
         itemStyle: {
           borderWidth: 10,
           borderColor: '#FFF'
