@@ -47,7 +47,7 @@ export class Section2Component implements OnInit {
 
  constructor( private projectService: ProjectService ) {
 
-   this.color = ['#9474D8','#fb8eca','#99b4f3','#118ebd'];
+   this.color = ['#9474D8','#fb8eca','#99b4f3','#118ebd','#7fdcba'];
    this.color1 = ['#e91e63','#009688','#da534e','#8bc34a','#ff9800','#797979','#0274d8','#797979','#0274d8','#797979','#0274d8',
    '#797979','#0274d8','#797979','#0274d8','#797979','#0274d8','#797979'];
 
@@ -89,10 +89,6 @@ export class Section2Component implements OnInit {
  ngOnInit() {
 
     this.projectService.getTableData();
-    this.projectService.getGraphData1();
-    this.projectService.getGraphData2();
-    this.projectService.getGraphData3();
-    this.projectService.getGraphData4();
 
   }
 
@@ -148,7 +144,7 @@ export class Section2Component implements OnInit {
                data: data[0],
                type: 'scatter',
                symbolSize: function (data) {
-                   return data[2]/2;
+                   return data[1]*5;
                },
                label: {
                    show: true,

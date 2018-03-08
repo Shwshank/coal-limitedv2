@@ -20,7 +20,7 @@
             <div style="float:right;" >
               <div class="dropdown " style="margin-left:20px">
                 <select class="btn dropdown-toggle" [(ngModel)]="selectedSubsidary" (change)='getSubsidaryData()' >
-                  <option >ALL</option>
+                  <option >All</option>
                   <option *ngFor='let sub of subsidary_name'  >{{sub.name}}</option>
                 </select>
               </div>
@@ -29,7 +29,7 @@
             <div style="float:right;" >
               <div class="dropdown " style="margin-left:20px">
                 <select class="btn dropdown-toggle" [(ngModel)]="selectedMonth" (change)='getMonthData()'>
-                  <option >Dec - 17</option>
+                  <option >Aug - 17</option>
                   <option *ngFor='let sub of month_name'  >{{sub}}</option>
                 </select>
               </div>

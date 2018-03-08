@@ -20,7 +20,7 @@ export class Section4Component implements OnInit {
   option8_xAxisData: any;
   option8_data: any;
 
-  selectedMonth: any = 'Dec - 17';
+  selectedMonth: any = 'Aug - 17';
   selectedSubsidary: any = 'ALL';
   selectedLocation: any = 'All Locations';
 

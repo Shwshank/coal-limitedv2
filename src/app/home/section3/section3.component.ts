@@ -25,11 +25,14 @@ export class Section3Component implements OnInit {
   sub4: any;
   sub5: any;
   sub6: any;
-  selectedSubsidary: any = 'ALL';
+  selectedSubsidary: any = 'All';
 
   option7_legends: any;
   option7_data: any;
   subsidary_name: any = [];
+
+  GV1 : any = [];
+  GV2 : any = [];
 
   constructor(private projectService: ProjectService) {
 
@@ -46,15 +49,29 @@ export class Section3Component implements OnInit {
       this.option7_data = res.data;
       this.option7_legends = res.legends;
       this.getOption7();
-    })
+    });
 
     this.sub3 = this.projectService.emitSubsidary_name.subscribe(res=>{
       this.subsidary_name = res;
-    })
+    });
 
     this.sub4 = this.projectService.emitOption5.subscribe(res=>{
       this.option5_data = res;
-    })
+      this.getOption5();
+    });
+
+    this.sub5 = this.projectService.emitGV_1.subscribe(res=>{
+      this.GV1 = res;
+      console.log(res);
+
+
+    });
+
+    this.sub6 = this.projectService.emitGV_2.subscribe(res=>{
+      this.GV2 = res;
+      console.log(res);
+    });
+
 
     // this.option6_data = [{name: "Within 10 days", value: 2913},{name: "Between 11 to 14 days", value: 246},{name: "Between 14 to 18 days", value: 0},{name: "More than 18 days", value: 164}];
     // this.option6_legends = ["Within 10 days","Between 11 to 14 days","Between 14 to 18 days","More than 18 days"];
@@ -65,12 +82,16 @@ export class Section3Component implements OnInit {
   }
 
   ngOnInit() {
+    this.projectService.getSubsidarySummary(this.selectedSubsidary);
+        
     this.projectService.getGraphData5(this.selectedSubsidary);
     this.projectService.getGraphData6(this.selectedSubsidary);
     this.projectService.getGraphData7(this.selectedSubsidary);
-    this.projectService.getSubsidaryName();
+
+    // this.projectService.getSubsidaryName(this.selectedSubsidary);
+
     $('[data-toggle="tooltip"]').tooltip()
-    this.getOption5();
+
   }
 
   getOption5(){
@@ -281,13 +302,17 @@ export class Section3Component implements OnInit {
   }
 
   getSubsidaryData() {
-    this.projectService.getGraphData5(this.selectedSubsidary);
-    this.projectService.getGraphData6(this.selectedSubsidary);
-    this.projectService.getGraphData7(this.selectedSubsidary);
+
+    this.projectService.getSubsidaryName(this.selectedSubsidary);
+
   }
 
   ngOnDestroy() {
     this.sub1.unsubscribe();
     this.sub2.unsubscribe();
+    this.sub3.unsubscribe();
+    this.sub4.unsubscribe();
+    this.sub5.unsubscribe();
+    this.sub6.unsubscribe();
   }
 }

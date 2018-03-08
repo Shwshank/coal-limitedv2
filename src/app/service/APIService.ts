@@ -18,4 +18,28 @@ export class APIService {
     return this.http.get(this.projectURL+'/getyearwisesummary').map(res=>res.json());
   }
 
+  GetSubsidarySummary(subsidary){
+    return this.http.get(this.projectURL+'/getsubsidiarysummary').map(res=>res.json());
+  }
+
+  GetNewLocationMonthlyLifting(month,subsidary,location){
+
+    let tempData = new FormData();
+    tempData.append('month',month);
+    tempData.append('subsidary',subsidary);
+    tempData.append('location',location);
+
+    return this.http.post(this.projectURL+'/getnewlocationmonthlylifting',tempData).map(res=>res.json());
+  }
+
+  GetMonthName() {
+    return this.http.get(this.projectURL+'/getmonths').map(res=>res.json());
+  }
+
+  GetSubsidiaryLocation(loc) {
+    let tempData = new FormData();
+    tempData.append('subsidary',loc);
+    return this.http.post(this.projectURL+'/getlocations',tempData).map(res=>res.json());
+  }
+
 }

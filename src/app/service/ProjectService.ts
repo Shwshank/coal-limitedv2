@@ -39,6 +39,9 @@ export class ProjectService {
   emitOption5_data1 = new EventEmitter<any>();
   emitOption5_data2 = new EventEmitter<any>();
 
+  emitGV_1 = new EventEmitter<any>();
+  emitGV_2 = new EventEmitter<any>();
+
   emitOption6 = new EventEmitter<any>();
   emitOption6_legends = new EventEmitter<any>();
   emitOption6_data = new EventEmitter<any>();
@@ -58,9 +61,11 @@ export class ProjectService {
 
   option1_legends: any;  option1_data: any;  option1_data1: any;  option1_data2: any;  option2_legends: any;  option2_data1: any;  option2_data2: any;
   option3_legends: any;  option3_data1: any;  option3_data2: any;  option4_legends: any;  option4_data1: any;  option4_data2: any;
-  tableHeading: any= [];  tableArray : any = [];  tableTotal : any = []; subsidary_name: any=[]; subsidary_locatoin_name: any=[]; month_name: any=[];
+  tableHeading: any= [];  tableArray : any = [];  tableTotal : any = []; subsidary_name: any=[{_id:0, name:""}]; subsidary_locatoin_name: any=[]; month_name: any=[];
 
   option6_legends: any; option6_data: any;  option7_legends: any;  option7_data: any;  option8_data: any=[]; option8_xAxisData: any=[];
+
+  tempResult: any;
 
   constructor(private APIService: APIService) {
     this.tableHeading = ['Subsidiary','Special Forwad E-auction','Linkage Auction','Spot Auction','Exclusive Auction','Road Proportion','Total Volume','Number of Contracts'];
@@ -101,8 +106,8 @@ export class ProjectService {
                           {name: "Results Declared - Road", data: [10,42,66,12,56], type: "bar"},
                           {name: "Results Declared - Rail", data: [23,34,11,66,22], type: "bar"}];
 
-    this.option6_data = [{name: "Within 10 days", value: 2913},{name: "Between 11 to 14 days", value: 246},{name: "Between 14 to 18 days", value: 0},{name: "More than 18 days", value: 164}];
-    this.option6_legends = ["Within 10 days","Between 11 to 14 days","Between 14 to 18 days","More than 18 days"];
+    // this.option6_data = [{name: "Within 10 days", value: 2913},{name: "Between 11 to 14 days", value: 246},{name: "Between 14 to 18 days", value: 0},{name: "More than 18 days", value: 164}];
+    // this.option6_legends = ["Within 10 days","Between 11 to 14 days","Between 14 to 18 days","More than 18 days"];
 
     this.option7_data = [{name: "Within 10 days", value: 2913},{name: "Between 11 to 14 days", value: 246},{name: "Between 14 to 18 days", value: 0},{name: "More than 18 days", value: 164}];
     this.option7_legends = ["Within 10 days","Between 11 to 14 days","Between 14 to 18 days","More than 18 days"];
@@ -112,8 +117,21 @@ export class ProjectService {
       this.option8_data.push((Math.sin(i / 2) * (i / 5 ) + i / 6) * 5);
     }
 
-    this.subsidary_name = [{id:1, name:"SECL"}, {id:2, name:"CCL"}, {id:3, name:"MCL"}];
-    this.month_name = ['Oct - 17', 'Nov - 17', 'Dec - 17', 'Jan - 18'];
+    this.subsidary_name = [{_id:0, name:""}];
+    this.month_name = ['Aug - 17', 'Sep - 17', 'Oct - 17', 'Nov - 17', 'Dec - 17', 'Jan - 18', 'Feb - 18', 'Mar - 18'];
+
+  }
+
+  getSubsidarySummary(subsidary){
+    this.APIService.GetSubsidarySummary(subsidary).subscribe(res=>{
+      console.log(res);
+
+      this.tempResult = res
+      this.subsidary_name = res.array;
+      this.emitSubsidary_name.emit(this.subsidary_name);
+
+      this.getSubsidaryName('All');
+    });
 
   }
 
@@ -121,69 +139,99 @@ export class ProjectService {
     this.APIService.Login(data).subscribe((res)=>{
       console.log(res);
       if(res.success) {
-        // localStorage.setItem('login','true1');
-        // localStorage.setItem('not_All_Summary','0');
-        // this.emitUserLogin.emit('user');
 
       } else {
-        // this.toast('Invalid username or password ', 'Error!');
       }
     }, (err)=>{
       console.log(err);
-      // this.toast('Invalid username or password ', 'Error!');
     });
   }
 
   getTableData() {
+    this.APIService.getTableData().subscribe(res=>{
+      console.log(res);
+      if(res.success){
+
+        this.emitTableData.emit({tableArray: res.graph1.data, tableTotal: res.graph1.total, tableHeading: res.graph1.header});
+
+        this.emitOption1.emit(res.graph2.data[0]);
+
+        this.emitOption2.emit({legends: res.graph4.legends, data1: res.graph4.xAxisdata, data2: res.graph4.series});
+
+        this.emitOption3.emit({legends: res.graph5.legends, data1: res.graph5.angleAxisdata, data2: res.graph5.series});
+
+        this.emitOption4.emit({legends: res.graph6.legends, data1: res.graph6.angleAxisdata, data2: res.graph6.series});
+
+      }else{
+        console.log('error1');
+      }
+    }, err=>{
+      console.log(err);
+    })
     this.emitTableData.emit({tableArray: this.tableArray, tableTotal: this.tableTotal, tableHeading: this.tableHeading});
   }
 
-  getSubsidaryName() {
-    this.emitSubsidary_name.emit(this.subsidary_name);
+  getSubsidaryName(sub) {
+
+    // console.log(sub);
+
+      let id = 0;
+      for(let i = 0; i<this.subsidary_name.length; i++) {
+        if(this.subsidary_name[i].name === sub) {
+          id = this.subsidary_name[i]._id;
+          break;
+        }
+      }
+      // console.log(id);
+
+      var colors = ['#9474D8','#99b4f3','#fb8eca','#EAE8F2','#EAE8F2'];
+
+      this.emitOption5.emit(this.tempResult.data[id].gradeSunBurst);
+
+      this.emitGV_1.emit(this.tempResult.data[id].slipage);
+
+      this.emitGV_2.emit(this.tempResult.data[id].slipage2);
+
+      this.emitOption6.emit({data: this.tempResult.data[id].graph2.data1, legends: this.tempResult.data[id].graph2.legends});
+
+      this.emitOption7.emit({data: this.tempResult.data[id].graph1.data1, legends: this.tempResult.data[id].graph1.legends});
   }
 
   getSubsidaryLocation(loc) {
 
-    if(loc == 'ALL'){
-      this.subsidary_locatoin_name = ['Location11 SECL','Location12 SECL', 'Location21 CCL','Location22 CCL','Location23 CCL','Location31 MCL','Location32 MCL','Location33 MCL'];
+    this.APIService.GetSubsidiaryLocation(loc).subscribe(res=>{
+      console.log(res);
+      this.subsidary_locatoin_name = res.locations;
       this.emitSubsidaryLocation_name.emit(this.subsidary_locatoin_name);
-    }
+    });
 
-    if(loc == 'SECL'){
-      this.subsidary_locatoin_name = ['Location11 SECL','Location12 SECL'];
-      this.emitSubsidaryLocation_name.emit(this.subsidary_locatoin_name);
-    }
-
-    if(loc == 'CCL'){
-      this.subsidary_locatoin_name = ['Location21 CCL','Location22 CCL','Location23 CCL']
-      this.emitSubsidaryLocation_name.emit(this.subsidary_locatoin_name);
-    }
-
-    if(loc == 'MCL'){
-      this.subsidary_locatoin_name = ['Location31 MCL','Location32 MCL','Location33 MCL']
-      this.emitSubsidaryLocation_name.emit(this.subsidary_locatoin_name);
-    }
+    // if(loc == 'ALL'){
+    //   this.subsidary_locatoin_name = ['Location11 SECL','Location12 SECL', 'Location21 CCL','Location22 CCL','Location23 CCL','Location31 MCL','Location32 MCL','Location33 MCL'];
+    //
+    // }
+    //
+    // if(loc == 'SECL'){
+    //   this.subsidary_locatoin_name = ['Location11 SECL','Location12 SECL'];
+    //   this.emitSubsidaryLocation_name.emit(this.subsidary_locatoin_name);
+    // }
+    //
+    // if(loc == 'CCL'){
+    //   this.subsidary_locatoin_name = ['Location21 CCL','Location22 CCL','Location23 CCL']
+    //   this.emitSubsidaryLocation_name.emit(this.subsidary_locatoin_name);
+    // }
+    //
+    // if(loc == 'MCL'){
+    //   this.subsidary_locatoin_name = ['Location31 MCL','Location32 MCL','Location33 MCL']
+    //   this.emitSubsidaryLocation_name.emit(this.subsidary_locatoin_name);
+    // }
 
   }
 
   getMonthName() {
+    // this.APIService.GetMonthName().subscribe(res=>{
+    //   console.log(res);
+    // });
     this.emitMonth_name.emit(this.month_name);
-  }
-
-  getGraphData1() {
-    this.emitOption1.emit(this.option1_data);
-  }
-
-  getGraphData2() {
-    this.emitOption2.emit({ legends: this.option2_legends, data1: this.option2_data1, data2: this.option2_data2  });
-  }
-
-  getGraphData3() {
-    this.emitOption3.emit({ legends: this.option3_legends, data1: this.option3_data1, data2: this.option3_data2  });
-  }
-
-  getGraphData4() {
-    this.emitOption4.emit({ legends: this.option4_legends, data1: this.option4_data1, data2: this.option4_data2  });
   }
 
   getGraphData5(subsidary) {
@@ -242,20 +290,26 @@ export class ProjectService {
             itemStyle: item4}
           ];
 
-    this.emitOption5.emit(data);
+    // this.emitOption5.emit(data);
+    console.log(data);
+
+
   }
 
   getGraphData6(subsidary) {
-    this.emitOption6.emit({data: this.option6_data, legends: this.option6_legends});
+    // this.emitOption6.emit({data: this.option6_data, legends: this.option6_legends});
   }
 
   getGraphData7(subsidary) {
-    this.emitOption7.emit({data: this.option7_data, legends: this.option7_legends});
+    // this.emitOption7.emit({data: this.option7_data, legends: this.option7_legends});
   }
 
   getGraphData8(month, subsidary, location) {
+    this.APIService.GetNewLocationMonthlyLifting(month, subsidary, location).subscribe(res=>{
+      console.log(res);
+      this.emitOption8.emit({xAxisData: res.x, data: res.y});
+    });
     console.log(month+', '+subsidary+', '+location);
-    this.emitOption8.emit({xAxisData: this.option8_xAxisData, data: this.option8_data});
   }
 
 
