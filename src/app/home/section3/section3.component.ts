@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ProjectService } from '../../service/ProjectService';
+declare var $: any;
 
 @Component({
   selector: 'app-section3',
@@ -11,88 +13,74 @@ export class Section3Component implements OnInit {
   option6: any;
   option7: any;
 
+  option5_data: any;
+
   option6_legends: any;
   option6_data: any;
-
   color: any;
+
+  sub1: any;
+  sub2: any;
+  sub3: any;
+  sub4: any;
+  sub5: any;
+  sub6: any;
+  selectedSubsidary: any = 'ALL';
 
   option7_legends: any;
   option7_data: any;
+  subsidary_name: any = [];
 
-  constructor() {
-
-    this.option6_data = [{name: "Within 10 days", value: 2913},{name: "Between 11 to 14 days", value: 246},{name: "Between 14 to 18 days", value: 0},{name: "More than 18 days", value: 164}];
-    this.option6_legends = ["Within 10 days","Between 11 to 14 days","Between 14 to 18 days","More than 18 days"];
-
-    this.option7_data = [{name: "Within 10 days", value: 2913},{name: "Between 11 to 14 days", value: 246},{name: "Between 14 to 18 days", value: 0},{name: "More than 18 days", value: 164}];
-    this.option7_legends = ["Within 10 days","Between 11 to 14 days","Between 14 to 18 days","More than 18 days"];
+  constructor(private projectService: ProjectService) {
 
     this.color = ['#9474D8','#fb8eca','#99b4f3','#118ebd'];
+
+    this.sub1 = this.projectService.emitOption6.subscribe(res=>{
+      this.option6_data = res.data;
+      this.option6_legends = res.legends;
+      this.getOption6();
+
+    })
+
+    this.sub2 = this.projectService.emitOption7.subscribe(res=>{
+      this.option7_data = res.data;
+      this.option7_legends = res.legends;
+      this.getOption7();
+    })
+
+    this.sub3 = this.projectService.emitSubsidary_name.subscribe(res=>{
+      this.subsidary_name = res;
+    })
+
+    this.sub4 = this.projectService.emitOption5.subscribe(res=>{
+      this.option5_data = res;
+    })
+
+    // this.option6_data = [{name: "Within 10 days", value: 2913},{name: "Between 11 to 14 days", value: 246},{name: "Between 14 to 18 days", value: 0},{name: "More than 18 days", value: 164}];
+    // this.option6_legends = ["Within 10 days","Between 11 to 14 days","Between 14 to 18 days","More than 18 days"];
+
+    // this.option7_data = [{name: "Within 10 days", value: 2913},{name: "Between 11 to 14 days", value: 246},{name: "Between 14 to 18 days", value: 0},{name: "More than 18 days", value: 164}];
+    // this.option7_legends = ["Within 10 days","Between 11 to 14 days","Between 14 to 18 days","More than 18 days"];
+
   }
 
   ngOnInit() {
+    this.projectService.getGraphData5(this.selectedSubsidary);
+    this.projectService.getGraphData6(this.selectedSubsidary);
+    this.projectService.getGraphData7(this.selectedSubsidary);
+    this.projectService.getSubsidaryName();
+    $('[data-toggle="tooltip"]').tooltip()
     this.getOption5();
-    this.getOption6();
-    this.getOption7();
   }
 
   getOption5(){
-    var colors = ['#9474D8','#fb8eca','#99b4f3','#EAE8F2','#EAE8F2'];
-      var item1 = {
-          color: colors[0]
-      };
-      var item2 = {
-          color: colors[1]
-      };
-      var item3 = {
-          color: colors[2]
-      };
-      var item4 = {
-          color: colors[3]
-      };
-          var data = [     {
-              children: [
-                  {
-                      children: [
-                          {
-                              name: 'Grade Variation: -3 & above',
-                              value: 142,
-                              itemStyle: item1
-                              },
-          {
-              name: 'Grade Variation: -2',
-              value: 221,
-              itemStyle: item1
-              },
-          {
-              name: 'Grade Variation: -1',
-              value: 343,
-              itemStyle: item1
-              }
-          ],
-          name: 'Above Grade',
-          itemStyle: item1
-          },
-        {children: [{name: 'Grade Variation: 0', value: 456,
-          itemStyle: item2}],
-         name: 'Same Grade',
-          itemStyle: item2},
-        {children: [{name: 'Grade Variation: 1', value: 442,
-          itemStyle: item3},
-          {name: 'Grade Variation: 2', value: 405,
-          itemStyle: item3},
-          {name: 'Grade Variation: 3 & above', value: 672,
-          itemStyle: item3}],
-         name: 'Below Grade',
-          itemStyle: item3}],
-       name: 'Grade Variance',
-          itemStyle: item4}];
+    // var colors = ['#9474D8','#99b4f3','#fb8eca','#EAE8F2','#EAE8F2'];
 
     this.option5 = {
       series: {
               type: 'sunburst',
-              data: data,
-              radius: [0, '80%'],
+              data: this.option5_data,
+              radius: [ '1%', '75%'],
               label : {
                   rotate: 'vertical',
                   color: 'darkslategray'
@@ -106,10 +94,6 @@ export class Section3Component implements OnInit {
                       console.log(obj);
                       var value = obj.name;
                       return value;
-                      // return  "Subsidiary" + '：' + value[3] + '<br>'
-                      //         +"Volume Signed" + '：' + value[1]+ " mmt"  + '<br>'
-                      //         +"Road Proportion"+ '：' + value[0]+"%"  + '<br>'
-                      //         +"Contracts" + '：' + value[2] + '<br>';
                   }
               }
           }
@@ -255,7 +239,7 @@ export class Section3Component implements OnInit {
                               selectedMode: 'single',
                               selectedOffset: 30,
                               type:'pie',
-                              radius : '76%',
+                              radius : '75%',
                               center: '50%',
                               data:this.option7_data,
                               // roseType: 'radius',
@@ -292,4 +276,18 @@ export class Section3Component implements OnInit {
         };
     }
 
+  GVDetails() {
+    $("#GVDetails").modal('show');
+  }
+
+  getSubsidaryData() {
+    this.projectService.getGraphData5(this.selectedSubsidary);
+    this.projectService.getGraphData6(this.selectedSubsidary);
+    this.projectService.getGraphData7(this.selectedSubsidary);
+  }
+
+  ngOnDestroy() {
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
+  }
 }

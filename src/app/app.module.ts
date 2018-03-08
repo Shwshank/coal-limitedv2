@@ -1,8 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgxEchartsModule } from 'ngx-echarts';
-
+import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import 'rxjs/add/operator/map';
 
@@ -29,7 +30,9 @@ import { ProjectService } from './service/ProjectService';
   imports: [
     BrowserModule,
     NgxEchartsModule,
-    HttpModule
+    HttpModule,
+    RouterModule,
+    FormsModule
   ],
   providers: [
     APIService,

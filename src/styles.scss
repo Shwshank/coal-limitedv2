@@ -50,14 +50,19 @@ $navbutton: darkslategray;
   margin-bottom: 5vh;
 }
 footer{
-  height:10vh;
-  margin-top: 10vh;
+  height:15vh;
+
   // width: 98vw;
   // border-top: 1px solid #fff;
-  padding-top: 5vh;
+
   // background: linear-gradient(to bottom right, #a7a0e09e, #cba0e09e); /* Standard syntax (must be last) */
 }
 .dropdown-toggle{
   background-color: transparent;
   border: 2px solid black;
+}
+.projectButton{
+  border:0px solid black !important;
+  background-color:#fb8eca94  !important;
+  color: darkslategray !important;
 }

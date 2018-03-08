@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProjectService } from '../../service/ProjectService';
 
 @Component({
   selector: 'app-section2',
@@ -13,10 +14,18 @@ export class Section2Component implements OnInit {
   option3: any;
   option4: any;
 
+  sub1: any;
+  sub2: any;
+  sub3: any;
+  sub4: any;
+  sub5: any;
+  sub6: any;
+
   color: any;
   color1: any;
 
   option1_legends: any;
+  option1_data: any;
   option1_data1: any;
   option1_data2: any;
 
@@ -36,86 +45,79 @@ export class Section2Component implements OnInit {
   tableArray : any = [];
   tableTotal : any = [];
 
- constructor() {
+ constructor( private projectService: ProjectService ) {
 
-   this.tableHeading = ['Subsidiary','Special Forwad E-auction','Linkage Auction','Spot Auction','Exclusive Auction','Road Proportion','Total Volume','Number of Contracts'];
+   this.color = ['#9474D8','#fb8eca','#99b4f3','#118ebd'];
+   this.color1 = ['#e91e63','#009688','#da534e','#8bc34a','#ff9800','#797979','#0274d8','#797979','#0274d8','#797979','#0274d8',
+   '#797979','#0274d8','#797979','#0274d8','#797979','#0274d8','#797979'];
 
-   this.tableArray = [
-     { d1:'SECL', d2: '2.72', d3: '11.55', d4: '1.44', d5: '0.28', d6: '39%', d7: '15.99', d8: '259'},
-     { d1:'SECL', d2: '2.72', d3: '11.55', d4: '1.44', d5: '0.28', d6: '39%', d7: '15.99', d8: '259'},
-     { d1:'SECL', d2: '2.72', d3: '11.55', d4: '1.44', d5: '0.28', d6: '39%', d7: '15.99', d8: '259'},
-     { d1:'SECL', d2: '2.72', d3: '11.55', d4: '1.44', d5: '0.28', d6: '39%', d7: '15.99', d8: '259'},
-     { d1:'SECL', d2: '2.72', d3: '11.55', d4: '1.44', d5: '0.28', d6: '39%', d7: '15.99', d8: '259'},
-     { d1:'SECL', d2: '2.72', d3: '11.55', d4: '1.44', d5: '0.28', d6: '39%', d7: '15.99', d8: '259'},
-     { d1:'SECL', d2: '2.72', d3: '11.55', d4: '1.44', d5: '0.28', d6: '39%', d7: '15.99', d8: '259'},
-     { d1:'SECL', d2: '2.72', d3: '11.55', d4: '1.44', d5: '0.28', d6: '39%', d7: '15.99', d8: '259'},
-   ]
 
-   this.tableTotal = ['Total','5.16','31.48','2.11','0.28','','39.03','432'];
+   this.sub1 = this.projectService.emitTableData.subscribe(res=>{
+     this.tableHeading = res.tableHeading;
+     this.tableArray = res.tableArray;
+     this.tableTotal = res.tableTotal;
+   })
 
-   this.option2_legends = ["Samples Collected - Road","Samples Collected - Rail","Results Declared - Road","Results Declared - Rail"];
-   this.option2_data1 = ["CCL","MCL","NCL","SECL","WCL"];
-   this.option2_data2 = [{name: "Samples Collected - Road", data: [12,32,33,45,21], type: "bar"},
-                         {name: "Samples Collected - Rail", data: [23,21,21,11,43], type: "bar"},
-                         {name: "Results Declared - Road", data: [10,42,66,12,56], type: "bar"},
-                         {name: "Results Declared - Rail", data: [23,34,11,66,22], type: "bar"}];
+   this.sub2 = this.projectService.emitOption1.subscribe(res=>{
+     this.option1_data = res;
+     this.getOption1();
+   });
 
-   this.option3_legends = ["Samples Collected - Road","Samples Collected - Rail","Results Declared - Road","Results Declared - Rail"];
-   this.option3_data1 = ["CCL","MCL","NCL","SECL","WCL"];
-   this.option3_data2 = [{name: "Samples Collected - Road", data: [12,32,33,45,21], type: "bar"},
-                         {name: "Samples Collected - Rail", data: [23,21,21,11,43], type: "bar"},
-                         {name: "Results Declared - Road", data: [10,42,66,12,56], type: "bar"},
-                         {name: "Results Declared - Rail", data: [23,34,11,66,22], type: "bar"}];
+   this.sub3 = this.projectService.emitOption2.subscribe(res=>{
+     this.option2_legends = res.legends;
+     this.option2_data1 = res.data1;
+     this.option2_data2 = res.data2;
+     this.getOption2();
+   });
 
-   this.option4_legends = ["Samples Collected - Road","Samples Collected - Rail","Results Declared - Road","Results Declared - Rail"];
-   this.option4_data1 = ["CCL","MCL","NCL","SECL","WCL"];
-   this.option4_data2 = [{name: "Samples Collected - Road", data: [12,32,33,45,21], type: "bar"},
-                         {name: "Samples Collected - Rail", data: [23,21,21,11,43], type: "bar"},
-                         {name: "Results Declared - Road", data: [10,42,66,12,56], type: "bar"},
-                         {name: "Results Declared - Rail", data: [23,34,11,66,22], type: "bar"}];
+   this.sub4 = this.projectService.emitOption3.subscribe(res=>{
+     this.option3_legends = res.legends;
+     this.option3_data1 = res.data1;
+     this.option3_data2 = res.data2;
+     this.getOption3();
+   });
 
-    this.color = ['#9474D8','#fb8eca','#99b4f3','#118ebd']
+  this.sub5 =  this.projectService.emitOption4.subscribe(res=>{
+     this.option4_legends = res.legends;
+     this.option4_data1 = res.data1;
+     this.option4_data2 = res.data2;
+     this.getOption4();
+   });
+
  }
 
  ngOnInit() {
 
-   this.color1 = ['#e91e63','#009688','#da534e','#8bc34a','#ff9800','#797979','#0274d8','#797979','#0274d8','#797979','#0274d8','#797979','#0274d8','#797979','#0274d8','#797979','#0274d8','#797979'];
+    this.projectService.getTableData();
+    this.projectService.getGraphData1();
+    this.projectService.getGraphData2();
+    this.projectService.getGraphData3();
+    this.projectService.getGraphData4();
 
-   this.getOption1();
-   this.getOption2();
-   this.getOption3();
-   this.getOption4();
   }
 
   getOption1(){
-    let data = [[[39,16.0,259,'SECL'],[22,14.4,52,'MCL'],[16,3.2,13,'NCL'],[17,1.6,15,'CCL'],[51,3.7,87,'WCL']]];
+
+    let data = this.option1_data;
 
     let xAxisData = [];
-    let data1 = [];
-    let data2 = [];
-
-    for (let i = 0; i < 100; i++) {
-      xAxisData.push('category' + i);
-      data1.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5);
-      data2.push((Math.cos(i / 5) * (i / 5 - 10) + i / 6) * 5);
-    }
 
     this.option1 = {
      title: {
              text: ' '
          },
      tooltip: {
-                 padding: 5,
-                 backgroundColor: '#222',
-                 borderColor: '#777',
-                 borderWidth: 1,
-                 formatter: function (obj) {
-                     var value = obj.value;
-                     return  "Subsidiary" + '：' + value[3] + '<br>'
-                             +"Volume Signed" + '：' + value[1]+ " mmt"  + '<br>'
-                             +"Road Proportion"+ '：' + value[0]+"%"  + '<br>'
-                             +"Contracts" + '：' + value[2] + '<br>';
-                 }
+               padding: 5,
+               backgroundColor: '#222',
+               borderColor: '#777',
+               borderWidth: 1,
+               formatter: function (obj) {
+                 var value = obj.value;
+                 return  "Subsidiary" + '：' + value[3] + '<br>'
+                     +"Volume Signed" + '：' + value[1]+ " mmt"  + '<br>'
+                     +"Road Proportion"+ '：' + value[0]+"%"  + '<br>'
+                     +"Contracts" + '：' + value[2] + '<br>';
+               }
              },
      xAxis: {
              splitLine: {
@@ -162,7 +164,7 @@ export class Section2Component implements OnInit {
                    }
                  }
              }]
-   };
+     };
   }
 
   getOption2(){
@@ -226,7 +228,7 @@ export class Section2Component implements OnInit {
             }
         },
         legend: {
-            data:this.option2_legends
+            data:this.option3_legends
         },
         grid: {
             left: '1%',
@@ -237,7 +239,7 @@ export class Section2Component implements OnInit {
         xAxis : [
             {
                 type : 'category',
-                data : this.option2_data1
+                data : this.option3_data1
             }
         ],
         yAxis : [
@@ -245,7 +247,7 @@ export class Section2Component implements OnInit {
                 type : 'value'
             }
         ],
-        series : this.option2_data2
+        series : this.option3_data2
     };
   }
 
@@ -268,7 +270,7 @@ export class Section2Component implements OnInit {
             }
         },
         legend: {
-            data:this.option2_legends
+            data:this.option4_legends
         },
         grid: {
             left: '1%',
@@ -279,7 +281,7 @@ export class Section2Component implements OnInit {
         xAxis : [
             {
                 type : 'category',
-                data : this.option2_data1
+                data : this.option4_data1
             }
         ],
         yAxis : [
@@ -287,8 +289,16 @@ export class Section2Component implements OnInit {
                 type : 'value'
             }
         ],
-        series : this.option2_data2
+        series : this.option4_data2
     };
+  }
+
+  ngOnDestroy() {
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
+    this.sub3.unsubscribe();
+    this.sub4.unsubscribe();
+    this.sub5.unsubscribe();
   }
 
 }

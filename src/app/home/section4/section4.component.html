@@ -10,23 +10,28 @@
 
             <div style="float:right;" >
               <div class="dropdown " style="margin-left:20px">
-                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Location
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">FY 2018 - 19</a>
-                </div>
+                <select class="btn dropdown-toggle" [(ngModel)]="selectedLocation"  (change)='getLocationData()'>
+                  <option >All Locations</option>
+                  <option *ngFor='let sub of subsidaryLocation_name'  >{{sub}}</option>
+                </select>
               </div>
             </div>
 
             <div style="float:right;" >
-              <div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Month
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">FY 2018 - 19</a>
-                </div>
+              <div class="dropdown " style="margin-left:20px">
+                <select class="btn dropdown-toggle" [(ngModel)]="selectedSubsidary" (change)='getSubsidaryData()' >
+                  <option >ALL</option>
+                  <option *ngFor='let sub of subsidary_name'  >{{sub.name}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="float:right;" >
+              <div class="dropdown " style="margin-left:20px">
+                <select class="btn dropdown-toggle" [(ngModel)]="selectedMonth" (change)='getMonthData()'>
+                  <option >Dec - 17</option>
+                  <option *ngFor='let sub of month_name'  >{{sub}}</option>
+                </select>
               </div>
             </div>
 

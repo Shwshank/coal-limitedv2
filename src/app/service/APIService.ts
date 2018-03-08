@@ -4,14 +4,18 @@ import { EventEmitter, Injectable } from '@angular/core';
 @Injectable()
 export class APIService {
 
-  // projectURL: string = 'http://192.168.15.187:8000';
-  projectURL: string = 'https://qcitech.org:8081';
+  projectURL: string = 'http://192.168.15.187:8000';
+  // projectURL: string = 'https://qcitech.org:8081';
   responseSocketURL: string = 'ws://192.168.15.187:8000';
-  
+
   constructor( private http: Http, ) {}
 
   Login(data) {
     return this.http.post(this.projectURL+'/login',data).map(res=>res.json());
+  }
+
+  getTableData(){
+    return this.http.get(this.projectURL+'/getyearwisesummary').map(res=>res.json());
   }
 
 }
